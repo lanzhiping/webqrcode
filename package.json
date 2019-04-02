@@ -1,0 +1,9 @@
+{
+    "scripts": {
+        "dev": "node server.js"
+    },
+    "dependencies": {
+        "express": "^4.16.4",
+        "jsqr": "^1.2.0"
+    }
+}
