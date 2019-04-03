@@ -16,11 +16,16 @@
             height: auto;
             box-sizing: border-box;
         }
-
         button {
             height: 50px;
             width: 50px;
             margin: 20px;
+            border: solid 1px black;
+        }
+        #cameras {
+            padding: 10px;
+        }
+        #cameras-selector {
             border: solid 1px black;
         }
     </style>
@@ -28,58 +33,17 @@
 </head>
 
 <body>
+    <div id="cameras">
+        <select id="cameras-selector">
+            <option value="11">1</option>
+            <option value="21">2</option>
+        </select>
+    </div>
     <video id="video" muted playsinline autoplay></video>
     <button id="start">start</button>
     <button id="stop">stop</button>
     <div id="result"></div>
-    <script type='text/javascript'>
-        var video = document.getElementById('video');
-        if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-            navigator.mediaDevices.getUserMedia({ video: true }).then(function (stream) {
-                video.srcObject = stream;
-                video.play();
-            });
-        }
-
-        var canvas = document.createElement('canvas');
-        canvas.width = 640;
-        canvas.height = 480;
-        var ctx = canvas.getContext('2d');
-        var scaningInterval = null;
-        var result = document.getElementById('result');
-        var startBtn = document.getElementById('start');
-        var stopBtn = document.getElementById('stop');
-
-        startBtn.onclick = function() {
-            if (scaningInterval) {
-                return;
-            }
-
-            scaningInterval = setInterval(() => {
-                result.innerText = 'scaning';
-                ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-                var imageData = ctx.getImageData(0, 0, 640, 480);
-                var code = jsQR(imageData.data, 640, 480);
-
-                if (code) {
-                    if (typeof code === 'object') {
-                        result.innerText = 'code detected: ' + JSON.stringify(code);
-                        return;
-                    }
-                    if (typeof code === 'string') {
-                        result.innerText = 'code detected: ' + code;
-                        return;
-                    }
-                    result.innerText = 'code detected: ' + code;
-                }
-            }, 1000);
-        }
-
-        stopBtn.onclick = function() {
-            window.clearInterval(scaningInterval);
-            result.innerText = 'stop scaning';
-        }
-    </script>
+    <script type='text/javascript' src="./index.js"></script>
 </body>
 
 </html>
