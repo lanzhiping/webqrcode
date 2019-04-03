@@ -1,6 +1,7 @@
 {
     "scripts": {
-        "dev": "node server.js"
+        "dev": "node server.js",
+        "deploy:uat": "bash deploy.sh"
     },
     "dependencies": {
         "express": "^4.16.4",
